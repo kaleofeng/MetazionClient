@@ -8,7 +8,8 @@ USING_NAMESPACE_MZ_NET
 
 AppClient* g_appClient = nullptr;
 
-AppClient::AppClient() {}
+AppClient::AppClient()
+    : m_connected(false) {}
 
 AppClient::~AppClient() {}
 
@@ -45,6 +46,14 @@ void AppClient::update(float dt) {
     }
 
     m_networkService.UnlockSockets(m_socketArray);
+}
+
+bool AppClient::hasConnected() {
+    return m_connected;
+}
+
+void AppClient::SetConnected(bool connected) {
+    m_connected = connected;
 }
 
 void AppClient::initNetworkService() {

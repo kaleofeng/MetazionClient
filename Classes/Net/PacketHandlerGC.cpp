@@ -2,6 +2,9 @@
 
 #include "Common/Packet/PacketGC.hpp"
 
+#include "AppClient.h"
+#include "UI/UIMsgDispatcher.h"
+
 void PacketHandlerGC::Handle(int command, const void* data, int length) {
     ::printf("Command[%d] data[%p] length[%d]\n", command, data, length);
 
@@ -17,9 +20,9 @@ void PacketHandlerGC::Handle(int command, const void* data, int length) {
 }
 
 void PacketHandlerGC::HandleConnected(const void* data, int length) {
-
+    g_appClient->SetConnected(true);
 }
 
 void PacketHandlerGC::HandleDisconnected(const void* data, int length) {
-
+    g_appClient->SetConnected(false);
 }

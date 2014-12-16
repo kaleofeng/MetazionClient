@@ -21,6 +21,10 @@ public:
 
     void update(float dt);
 
+    bool hasConnected();
+
+    void SetConnected(bool connected);
+
 private:
     void initNetworkService();
 
@@ -37,6 +41,8 @@ private:
     NS_MZ_NET::AppNetworkService m_networkService;
     NS_MZ_NET::AppNetworkService::SocketArray_t m_socketArray;
     NS_MZ_NET::Socket* m_sockets[64];
+
+    bool m_connected;
 };
 
 extern AppClient* g_appClient;

@@ -1,9 +1,8 @@
 #include "PacketHandlerLC.hpp"
 
-#include <Metazion/Share/Misc/MemoryInputStream.hpp>
-
 #include "Common/Packet/PacketLC.hpp"
 
+#include "AppClient.h"
 #include "UI/UIMsgDispatcher.h"
 
 void PacketHandlerLC::Handle(int command, const void* data, int length) {
@@ -27,11 +26,11 @@ void PacketHandlerLC::Handle(int command, const void* data, int length) {
 }
 
 void PacketHandlerLC::HandleConnected(const void* data, int length) {
-
+    g_appClient->SetConnected(true);
 }
 
 void PacketHandlerLC::HandleDisconnected(const void* data, int length) {
-
+    g_appClient->SetConnected(false);
 }
 
 void PacketHandlerLC::HandlePlayerLogin(const void* data, int length) {
