@@ -15,6 +15,9 @@ void PacketHandlerLC::Handle(int command, const void* data, int length) {
     case COMMAND_LC_DISCONNECTED:
         HandleDisconnected(data, length);
         break;
+    case COMMAND_LC_CONNECTFAILED:
+        HandleConnectFailed(data, length);
+        break;
     case COMMAND_LC_PLAYERLOGIN:
         HandlePlayerLogin(data, length);
         break;
@@ -31,6 +34,10 @@ void PacketHandlerLC::HandleConnected(const void* data, int length) {
 
 void PacketHandlerLC::HandleDisconnected(const void* data, int length) {
     g_appClient->SetConnected(false);
+}
+
+void PacketHandlerLC::HandleConnectFailed(const void* data, int length) {
+    
 }
 
 void PacketHandlerLC::HandlePlayerLogin(const void* data, int length) {

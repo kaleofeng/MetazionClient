@@ -83,6 +83,10 @@ void Login::loginButtonCallback(Ref* sender, ui::Widget::TouchEventType type) {
         return;
     }
 
+    if (!g_appClient->hasConnected()) {
+        return;
+    }
+
     const auto& username = m_username->getString();
     const auto& password = m_password->getString();
 

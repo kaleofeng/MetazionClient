@@ -15,6 +15,8 @@ protected:
 
     void OnDisconnected() override final;
 
+    void OnConnectFailed() override final;
+
     void OnValidPacket(int command, const void* data, int length) override final;
 
     void OnInvalidPacket() override final;
@@ -32,6 +34,8 @@ protected:
     void OnConnected() override final;
 
     void OnDisconnected() override final;
+
+    void OnConnectFailed() override final;
 
     void OnValidPacket(int command, const void* data, int length) override final;
 

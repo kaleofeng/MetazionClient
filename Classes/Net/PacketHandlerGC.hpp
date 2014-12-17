@@ -16,6 +16,8 @@ private:
      void HandleConnected(const void* data, int length);
 
      void HandleDisconnected(const void* data, int length);
+
+     void HandleConnectFailed(const void* data, int length);
 };
 
 #endif // _CLIENT_PACKETHANDLERGC_HPP_

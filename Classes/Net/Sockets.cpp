@@ -15,6 +15,11 @@ void ClientSocketCL::OnDisconnected() {
     PostData(COMMAND_LC_DISCONNECTED, nullptr, 0);
 }
 
+void ClientSocketCL::OnConnectFailed() {
+    ::printf("ClientSocket to Login Connect Failed\n");
+    PostData(COMMAND_LC_CONNECTFAILED, nullptr, 0);
+}
+
 void ClientSocketCL::OnValidPacket(int command, const void* data, int length) {
     g_appClient->m_packetHandlerLC.Handle(command, data, length);
 }
@@ -32,6 +37,11 @@ void ClientSocketCG::OnConnected() {
 void ClientSocketCG::OnDisconnected() {
     ::printf("ClientSocket to Gateway Disconnected\n");
     PostData(COMMAND_GC_DISCONNECTED, nullptr, 0);
+}
+
+void ClientSocketCG::OnConnectFailed() {
+    ::printf("ClientSocket to Gateway Connect Failed\n");
+    PostData(COMMAND_GC_CONNECTFAILED, nullptr, 0);
 }
 
 void ClientSocketCG::OnValidPacket(int command, const void* data, int length) {

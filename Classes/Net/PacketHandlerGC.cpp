@@ -15,6 +15,9 @@ void PacketHandlerGC::Handle(int command, const void* data, int length) {
     case COMMAND_GC_DISCONNECTED:
         HandleDisconnected(data, length);
         break;
+    case COMMAND_GC_CONNECTFAILED:
+        HandleConnectFailed(data, length);
+        break;
     default: break;
     }
 }
@@ -25,4 +28,8 @@ void PacketHandlerGC::HandleConnected(const void* data, int length) {
 
 void PacketHandlerGC::HandleDisconnected(const void* data, int length) {
     g_appClient->SetConnected(false);
+}
+
+void PacketHandlerGC::HandleConnectFailed(const void* data, int length) {
+    
 }
