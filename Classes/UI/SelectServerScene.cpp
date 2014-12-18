@@ -43,20 +43,8 @@ void SelectServer::InitUI() {
     rootNode->runAction(action);
     action->gotoFrameAndPlay(0, 60, true);
 
-
-    auto panelLeft = ui::Helper::seekNodeByName(rootNode, "Panel_Left");
-
-    m_listViewLeft = ui::ListView::create();
-    m_listViewLeft->setPosition(Point(0, 0));
-    m_listViewLeft->setBackGroundColorType(ui::Layout::BackGroundColorType::SOLID);
-    m_listViewLeft->setBackGroundColor(Color3B::BLACK);
-    m_listViewLeft->setContentSize(panelLeft->getContentSize());
-    m_listViewLeft->setGravity(ui::ListView::Gravity::CENTER_HORIZONTAL);
-    m_listViewLeft->setItemsMargin(10);
-
-    //m_listViewLeft->addEventListener(CC_CALLBACK_2(SelectServer::leftListViewCallback, this));
-
-    panelLeft->addChild(m_listViewLeft);
+    auto listViewLeftNode = ui::Helper::seekNodeByName(rootNode, "ListView_Left");
+    m_listViewLeft = static_cast<ui::ListView*>(listViewLeftNode);
 }
 
 void SelectServer::InitUIMsgHandler() {
