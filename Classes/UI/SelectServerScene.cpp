@@ -4,14 +4,17 @@
 #include <editor-support/cocostudio/ActionTimeline/CCActionTimeline.h>
 #include <ui/UIHelper.h>
 
-#include <Metazion/Share/Misc/MemoryInputStream.hpp>
-
-#include "StringManager.h"
+#include "AppClient.h"
+#include "Data/ServerGroupManager.hpp"
+#include "Data/StringManager.h"
 #include "UI/UIMsgDispatcher.h"
 
 USING_NS_CC;
 
-SelectServer::SelectServer() {}
+SelectServer::SelectServer()
+    : m_lvLeft(nullptr)
+    , m_lvRight(nullptr)
+    , m_btEnter(nullptr) {}
 
 SelectServer::~SelectServer() {}
 
@@ -27,12 +30,12 @@ bool SelectServer::init() {
         return false;
     }
 
-    InitUI();
-    InitUIMsgHandler();
+    initUI();
+    initUIMsgHandler();
     return true;
 }
 
-void SelectServer::InitUI() {
+void SelectServer::initUI() {
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
@@ -43,37 +46,26 @@ void SelectServer::InitUI() {
     rootNode->runAction(action);
     action->gotoFrameAndPlay(0, 60, true);
 
-    auto listViewLeftNode = ui::Helper::seekNodeByName(rootNode, "ListView_Left");
-    m_listViewLeft = static_cast<ui::ListView*>(listViewLeftNode);
+    auto lvLeftNode = ui::Helper::seekNodeByName(rootNode, "ListView_Left");
+    m_lvLeft = static_cast<ui::ListView*>(lvLeftNode);
+
+    auto btEnterNode = ui::Helper::seekNodeByName(rootNode, "Button_Enter");
+    m_btEnter = static_cast<ui::Button*>(btEnterNode);
+    m_btEnter->addTouchEventListener(CC_CALLBACK_2(SelectServer::enterButtonCallback, this));
 }
 
-void SelectServer::InitUIMsgHandler() {
+void SelectServer::initUIMsgHandler() {
     UIMsgDispatcher::Instance().Register(UIMSG_SELECTSERVER_SERVERLIST
         , [this](int msg, uint64_t param1, int64_t param2) {
-        const auto data = reinterpret_cast<const char*>(param1);
-        const auto length = static_cast<int>(param2);
-
-        NS_MZ_SHARE::MemoryInputStream inputStream;
-        inputStream.Attach(data, length);
-
-        int8_t servverGroupSize = 0;
-        inputStream.ReadInt8(servverGroupSize);
-
-        for (auto index = 0; index < servverGroupSize; ++index) {
-            int8_t id = 0;
-            inputStream.ReadInt8(id);
-            char name[32] = { '\0' };
-            inputStream.ReadString(name, sizeof(name));
-            uint32_t ip = 0;
-            inputStream.ReadUint32(ip);
-            uint16_t port = 0;
-            inputStream.ReadUint16(port);
-            int8_t status = 0;
-            inputStream.ReadInt8(status);
+        const auto serverGroupSize = ServerGroupManager::Instance().GetServerGroupSize();
+        for (auto index = 0; index < serverGroupSize; ++index) {
+            auto serverGroup = ServerGroupManager::Instance().GetServerGroup(index);
+            MZ_ASSERT_TRUE(!NS_MZ::IsNull(serverGroup));
 
             char text[64] = "";
             const std::string& format = StringManager::Instance().GetString(1001);
-            snprintf(text, sizeof(text), format.c_str(), name, status);
+            snprintf(text, sizeof(text), format.c_str()
+                , serverGroup->GetName(), serverGroup->GetStatus());
 
             auto button = ui::Button::create();
             button->loadTextureNormal("Images/SelectServer/LeftNormal.png");
@@ -84,7 +76,7 @@ void SelectServer::InitUIMsgHandler() {
             button->setTitleText(text);
             button->addTouchEventListener(CC_CALLBACK_2(SelectServer::leftButtonCallback, this));
 
-            m_listViewLeft->pushBackCustomItem(button);
+            m_lvLeft->pushBackCustomItem(button);
         }
     });
 }
@@ -98,7 +90,7 @@ void SelectServer::leftButtonCallback(Ref* sender, ui::Widget::TouchEventType ty
     button->setBright(false);
     button->setTouchEnabled(false);
 
-    auto& buttons = m_listViewLeft->getItems();
+    auto& buttons = m_lvLeft->getItems();
     for (auto eachButton : buttons) {
         if (eachButton != button) {
             eachButton->setBright(true);
@@ -106,6 +98,21 @@ void SelectServer::leftButtonCallback(Ref* sender, ui::Widget::TouchEventType ty
         }
     }
 
-    const auto curIndex = m_listViewLeft->getCurSelectedIndex();
+    const auto curIndex = m_lvLeft->getCurSelectedIndex();
     auto j = curIndex;
+}
+
+void SelectServer::enterButtonCallback(Ref* sender, ui::Widget::TouchEventType type) {
+    if (type != ui::Widget::TouchEventType::ENDED) {
+        return;
+    }
+
+    const auto index = m_lvLeft->getCurSelectedIndex();
+
+    auto serverGroup = ServerGroupManager::Instance().GetServerGroup(index);
+    MZ_ASSERT_TRUE(!NS_MZ::IsNull(serverGroup));
+
+    NS_MZ_NET::Host host;
+    host.FromAddress(serverGroup->GetPublicAddress());
+    g_appClient->connectToGateway(host);
 }

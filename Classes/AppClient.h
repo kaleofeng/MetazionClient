@@ -21,6 +21,10 @@ public:
 
     void update(float dt);
 
+    void connectToLogin(const NS_MZ_NET::Host& host);
+
+    void connectToGateway(const NS_MZ_NET::Host& host);
+
     bool hasConnected();
 
     void SetConnected(bool connected);

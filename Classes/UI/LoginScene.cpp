@@ -10,15 +10,15 @@
 #include <Common/Packet/PacketLC.hpp>
 
 #include "AppClient.h"
-#include "UI/UIMsgDispatcher.h"
 #include "UI/SelectServerScene.h"
+#include "UI/UIMsgDispatcher.h"
 
 USING_NS_CC;
 
 Login::Login()
-    : m_username(nullptr)
-    , m_password(nullptr)
-    , m_login(nullptr) {}
+    : m_tfUsername(nullptr)
+    , m_tfPassword(nullptr)
+    , m_btLogin(nullptr) {}
 
 Login::~Login() {}
 
@@ -40,7 +40,6 @@ bool Login::init() {
 }
 
 void Login::initUI() {
-
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
@@ -51,16 +50,16 @@ void Login::initUI() {
     rootNode->runAction(action);
     action->gotoFrameAndPlay(0, 60, true);
 
-    auto usernameNode = ui::Helper::seekNodeByName(rootNode, "TextField_Username");
-    m_username = static_cast<ui::TextField*>(usernameNode);
-    m_username->setFocused(true);
+    auto tfUsernameNode = ui::Helper::seekNodeByName(rootNode, "TextField_Username");
+    m_tfUsername = static_cast<ui::TextField*>(tfUsernameNode);
+    m_tfUsername->setFocused(true);
 
-    auto passwordNode = ui::Helper::seekNodeByName(rootNode, "TextField_Password");
-    m_password = static_cast<ui::TextField*>(passwordNode);
+    auto tfPasswordNode = ui::Helper::seekNodeByName(rootNode, "TextField_Password");
+    m_tfPassword = static_cast<ui::TextField*>(tfPasswordNode);
 
-    auto loginNode = ui::Helper::seekNodeByName(rootNode, "Button_Login");
-    m_login = static_cast<ui::Button*>(loginNode);
-    m_login->addTouchEventListener(CC_CALLBACK_2(Login::loginButtonCallback, this));
+    auto btLoginNode = ui::Helper::seekNodeByName(rootNode, "Button_Login");
+    m_btLogin = static_cast<ui::Button*>(btLoginNode);
+    m_btLogin->addTouchEventListener(CC_CALLBACK_2(Login::loginButtonCallback, this));
 }
 
 void Login::initUIMsgHandler() {
@@ -68,8 +67,8 @@ void Login::initUIMsgHandler() {
         , [this](int msg, uint64_t param1, int64_t param2) {
         const auto rsp = reinterpret_cast<const PlayerLoginLC*>(param1);
 
-        m_login->setBright(true);
-        m_login->setTouchEnabled(true);
+        m_btLogin->setBright(true);
+        m_btLogin->setTouchEnabled(true);
 
         if (rsp->m_success) {
             auto selectServerScene = SelectServer::createScene();
@@ -87,16 +86,16 @@ void Login::loginButtonCallback(Ref* sender, ui::Widget::TouchEventType type) {
         return;
     }
 
-    const auto& username = m_username->getString();
-    const auto& password = m_password->getString();
+    const auto& username = m_tfUsername->getString();
+    const auto& password = m_tfPassword->getString();
 
     PlayerLoginCL req;
     NS_MZ_SHARE::mzstrcpy(req.m_username, sizeof(req.m_username), username.c_str());
     NS_MZ_SHARE::mzstrcpy(req.m_password, sizeof(req.m_password), password.c_str());
     g_appClient->m_socketCL->SendData(req.COMMAND, &req, sizeof(req));
 
-    m_login->setBright(false);
-    m_login->setTouchEnabled(false);
-    m_username->setString("");
-    m_password->setString("");
+    m_btLogin->setBright(false);
+    m_btLogin->setTouchEnabled(false);
+    m_tfUsername->setString("");
+    m_tfPassword->setString("");
 }

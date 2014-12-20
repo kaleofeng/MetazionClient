@@ -21,15 +21,18 @@ public:
     bool init() override final;
 
 private:
-    void InitUI();
+    void initUI();
 
-    void InitUIMsgHandler();
+    void initUIMsgHandler();
 
     void leftButtonCallback(Ref* sender, cocos2d::ui::Widget::TouchEventType type);
 
+    void enterButtonCallback(Ref* sender, cocos2d::ui::Widget::TouchEventType type);
+
 private:
-    cocos2d::ui::ListView* m_listViewLeft;
-    cocos2d::ui::ListView* m_listViewRight;
+    cocos2d::ui::ListView* m_lvLeft;
+    cocos2d::ui::ListView* m_lvRight;
+    cocos2d::ui::Button* m_btEnter;
 };
 
 #endif // _CLIENT_SELECTSERVERSCENE_H_

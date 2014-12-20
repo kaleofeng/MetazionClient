@@ -26,9 +26,9 @@ private:
     void loginButtonCallback(Ref* sender, cocos2d::ui::Widget::TouchEventType type);
 
 private:
-    cocos2d::ui::TextField* m_username;
-    cocos2d::ui::TextField* m_password;
-    cocos2d::ui::Button* m_login;
+    cocos2d::ui::TextField* m_tfUsername;
+    cocos2d::ui::TextField* m_tfPassword;
+    cocos2d::ui::Button* m_btLogin;
 };
 
 #endif // _CLIENT_LOGINSCENE_H_

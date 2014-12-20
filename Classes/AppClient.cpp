@@ -2,7 +2,8 @@
 
 #include <Metazion/Net/Network.hpp>
 
-#include "StringManager.h"
+#include "Data/ServerGroupManager.hpp"
+#include "Data/StringManager.h"
 
 USING_NAMESPACE_MZ_NET
 
@@ -15,6 +16,7 @@ AppClient::~AppClient() {}
 
 bool AppClient::init() {
     StringManager::Instance().Initialize();
+    ServerGroupManager::Instance().Initialize();
 
     initNetworkService();
 
@@ -30,6 +32,7 @@ void AppClient::clear() {
 
     clearNetworkService();
 
+    ServerGroupManager::Instance().Finalize();
     StringManager::Instance().Finalize();
     Network::Cleanup();
 }
@@ -48,6 +51,24 @@ void AppClient::update(float dt) {
     m_networkService.UnlockSockets(m_socketArray);
 }
 
+void AppClient::connectToLogin(const NS_MZ_NET::Host& host) {
+    m_socketCL = new ClientSocketCL();
+    m_socketCL->Retain();
+    m_socketCL->SetRemoteHost(host);
+    m_socketCL->SetReconnectInterval(10000);
+    m_socketCL->Connect();
+    m_networkService.Attach(m_socketCL);
+}
+
+void AppClient::connectToGateway(const NS_MZ_NET::Host& host) {
+    m_socketCG = new ClientSocketCG();
+    m_socketCG->Retain();
+    m_socketCG->SetRemoteHost(host);
+    m_socketCG->SetReconnectInterval(10000);
+    m_socketCG->Connect();
+    m_networkService.Attach(m_socketCG);
+}
+
 bool AppClient::hasConnected() {
     return m_connected;
 }
@@ -64,17 +85,11 @@ void AppClient::initNetworkService() {
     ::memset(m_sockets, 0, sizeof(m_sockets));
     m_socketArray.Attach(m_sockets, 64, 0);
 
-    Host hostCL;
-    hostCL.SetFamily(AF_INET);
-    hostCL.SetIp("192.168.1.101");
-    hostCL.SetPort(21010);
-
-    m_socketCL = new ClientSocketCL();
-    m_socketCL->Retain();
-    m_socketCL->SetRemoteHost(hostCL);
-    m_socketCL->SetReconnectInterval(10000);
-    m_socketCL->Connect();
-    m_networkService.Attach(m_socketCL);
+    Host host;
+    host.SetFamily(AF_INET);
+    host.SetIp("192.168.1.101");
+    host.SetPort(21010);
+    connectToLogin(host);
 }
 
 void AppClient::clearNetworkService() {

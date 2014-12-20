@@ -15,8 +15,8 @@ StringManager::StringManager() {}
 StringManager::~StringManager() {}
 
 StringManager& StringManager::Instance() {
-    static StringManager s_stringManager;
-    return s_stringManager;
+    static StringManager s_instance;
+    return s_instance;
 }
 
 void StringManager::Initialize() {
