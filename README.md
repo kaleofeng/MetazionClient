@@ -1,4 +1,4 @@
 MetazionClient
 ==============
 
-MMORPG Game Client
+MMO Game Client
