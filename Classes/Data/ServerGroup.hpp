@@ -28,14 +28,6 @@ public:
         NS_MZ_SHARE::mzstrcpy(m_name, sizeof(m_name), value);
     }
 
-    const NS_MZ_NET::Address& GetPublicAddress() const {
-        return m_publicAddress;
-    }
-
-    void SetPublicAddress(const NS_MZ_NET::Address& value) {
-        m_publicAddress = value;
-    }
-
     int GetStatus() const {
         return m_status;
     }
@@ -44,12 +36,19 @@ public:
         m_status = value;
     }
 
+    const NS_MZ_NET::Address& GetPublicAddress() const {
+        return m_publicAddress;
+    }
+
+    void SetPublicAddress(const NS_MZ_NET::Address& value) {
+        m_publicAddress = value;
+    }
+
 private:
     int m_id;
     char m_name[64];
-    NS_MZ_NET::Address m_publicAddress;
-
     int m_status;
+    NS_MZ_NET::Address m_publicAddress;
 };
 
 #endif // _CLIENT_SERVERGROUP_H_

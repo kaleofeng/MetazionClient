@@ -65,12 +65,13 @@ void PacketHandlerLC::HandleServerList(const void* data, int length) {
         inputStream.ReadInt8(id);
         char name[32] = { '\0' };
         inputStream.ReadString(name, sizeof(name));
+        int8_t status = 0;
+        inputStream.ReadInt8(status);
         uint32_t ip = 0;
         inputStream.ReadUint32(ip);
         uint16_t port = 0;
         inputStream.ReadUint16(port);
-        int8_t status = 0;
-        inputStream.ReadInt8(status);
+        
 
         NS_MZ_NET::Address address;
         address.m_ip = ip;
@@ -78,6 +79,7 @@ void PacketHandlerLC::HandleServerList(const void* data, int length) {
 
         ServerGroup serverGroup;
         serverGroup.SetId(id);
+        serverGroup.SetStatus(status);
         serverGroup.SetName(name);
         serverGroup.SetPublicAddress(address);
         ServerGroupManager::Instance().AddServerGroup(serverGroup);
