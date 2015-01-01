@@ -4,6 +4,9 @@
 #include <editor-support/cocostudio/ActionTimeline/CCActionTimeline.h>
 #include <ui/UIHelper.h>
 
+#include <Common/Packet/PacketCL.hpp>
+#include <Common/Packet/PacketLC.hpp>
+
 #include "AppClient.h"
 #include "Data/ServerGroupManager.hpp"
 #include "Data/StringManager.h"
@@ -79,6 +82,25 @@ void SelectServer::initUIMsgHandler() {
             m_lvLeft->pushBackCustomItem(button);
         }
     });
+
+    UIMsgDispatcher::Instance().Register(UIMSG_SELECTSERVER_RSP
+        , [this](int msg, uint64_t param1, int64_t param2) {
+        const auto rsp = reinterpret_cast<const SelectServerLC*>(param1);
+
+        m_btEnter->setBright(true);
+        m_btEnter->setTouchEnabled(true);
+
+        if (rsp->m_authCode <= 0) {
+            return;
+        }
+
+        g_appClient->m_socketCL->SetReconnectInterval(-1);
+        g_appClient->m_socketCL->Close();
+
+        NS_MZ_NET::Host host;
+        host.FromAddress(rsp->m_address);
+        g_appClient->connectToGateway(host);
+    });
 }
 
 void SelectServer::leftButtonCallback(Ref* sender, ui::Widget::TouchEventType type) {
@@ -112,7 +134,10 @@ void SelectServer::enterButtonCallback(Ref* sender, ui::Widget::TouchEventType t
     auto serverGroup = ServerGroupManager::Instance().GetServerGroup(index);
     MZ_ASSERT_TRUE(!NS_MZ::IsNull(serverGroup));
 
-    NS_MZ_NET::Host host;
-    host.FromAddress(serverGroup->GetPublicAddress());
-    g_appClient->connectToGateway(host);
+    SelectServerCL req;
+    req.m_serverId = serverGroup->GetId();
+    g_appClient->m_socketCL->SendData(req.COMMAND, &req, sizeof(req));
+
+    m_btEnter->setBright(false);
+    m_btEnter->setTouchEnabled(false);
 }

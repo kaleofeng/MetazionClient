@@ -22,6 +22,8 @@ private:
     void HandlePlayerLogin(const void* data, int length);
 
     void HandleServerList(const void* data, int length);
+
+    void HandleSelectServer(const void* data, int length);
 };
 
 #endif // _CLIENT_PACKETHANDLERLC_HPP_
