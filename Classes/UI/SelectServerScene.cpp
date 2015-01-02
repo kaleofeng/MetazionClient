@@ -10,6 +10,7 @@
 #include "AppClient.h"
 #include "Data/ServerGroupManager.hpp"
 #include "Data/StringManager.h"
+#include "UI/HallScene.h"
 #include "UI/UIMsgDispatcher.h"
 
 USING_NS_CC;
@@ -100,6 +101,9 @@ void SelectServer::initUIMsgHandler() {
         NS_MZ_NET::Host host;
         host.FromAddress(rsp->m_address);
         g_appClient->connectToGateway(host);
+
+        auto hallScene = Hall::createScene();
+        Director::getInstance()->replaceScene(hallScene);
     });
 }
 
@@ -119,9 +123,6 @@ void SelectServer::leftButtonCallback(Ref* sender, ui::Widget::TouchEventType ty
             eachButton->setTouchEnabled(true);
         }
     }
-
-    const auto curIndex = m_lvLeft->getCurSelectedIndex();
-    auto j = curIndex;
 }
 
 void SelectServer::enterButtonCallback(Ref* sender, ui::Widget::TouchEventType type) {
