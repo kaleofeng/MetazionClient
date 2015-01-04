@@ -83,10 +83,6 @@ void Hall::houseButtonCallback(Ref* sender, ui::Widget::TouchEventType type) {
         return;
     }
 
-    if (!g_appClient->hasConnected()) {
-        return;
-    }
-
 }
 
 void Hall::shopButtonCallback(Ref* sender, ui::Widget::TouchEventType type) {
@@ -94,18 +90,10 @@ void Hall::shopButtonCallback(Ref* sender, ui::Widget::TouchEventType type) {
         return;
     }
 
-    if (!g_appClient->hasConnected()) {
-        return;
-    }
-
 }
 
 void Hall::treeButtonCallback(Ref* sender, ui::Widget::TouchEventType type) {
     if (type != ui::Widget::TouchEventType::ENDED) {
-        return;
-    }
-
-    if (!g_appClient->hasConnected()) {
         return;
     }
 
