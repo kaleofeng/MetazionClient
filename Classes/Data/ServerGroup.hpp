@@ -1,5 +1,5 @@
-#ifndef _CLIENT_SERVERGROUP_H_
-#define _CLIENT_SERVERGROUP_H_
+#ifndef _CLIENT_SERVERGROUP_HPP_
+#define _CLIENT_SERVERGROUP_HPP_
 
 #include <Metazion/Net/Address.hpp>
 #include <Metazion/Net/Host.hpp>
@@ -42,5 +42,5 @@ private:
     int m_status;
 };
 
-#endif // _CLIENT_SERVERGROUP_H_
+#endif // _CLIENT_SERVERGROUP_HPP_
 

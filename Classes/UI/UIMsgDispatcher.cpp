@@ -1,4 +1,4 @@
-#include "UIMsgDispatcher.h"
+#include "UIMsgDispatcher.hpp"
 
 UIMsgDispatcher::UIMsgDispatcher() {}
 

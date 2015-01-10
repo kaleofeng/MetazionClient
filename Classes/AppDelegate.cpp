@@ -1,6 +1,6 @@
 #include "AppDelegate.h"
 
-#include "UI/LoginScene.h"
+#include "UI/LoginScene.hpp"
 
 USING_NS_CC;
 

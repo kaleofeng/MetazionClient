@@ -2,8 +2,8 @@
 
 #include "Common/Packet/PacketGC.hpp"
 
-#include "AppClient.h"
-#include "UI/UIMsgDispatcher.h"
+#include "AppClient.hpp"
+#include "UI/UIMsgDispatcher.hpp"
 
 void PacketHandlerGC::Handle(int command, const void* data, int length) {
     ::printf("Command[%d] data[%p] length[%d]\n", command, data, length);

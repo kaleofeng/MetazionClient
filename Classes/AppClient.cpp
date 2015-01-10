@@ -1,9 +1,9 @@
-#include "AppClient.h"
+#include "AppClient.hpp"
 
 #include <Metazion/Net/Network.hpp>
 
 #include "Data/ServerGroupManager.hpp"
-#include "Data/StringManager.h"
+#include "Data/StringManager.hpp"
 
 USING_NAMESPACE_MZ_NET
 

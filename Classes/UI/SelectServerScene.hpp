@@ -1,5 +1,5 @@
-#ifndef _CLIENT_SELECTSERVERSCENE_H_
-#define _CLIENT_SELECTSERVERSCENE_H_
+#ifndef _CLIENT_SELECTSERVERSCENE_HPP_
+#define _CLIENT_SELECTSERVERSCENE_HPP_
 
 #include <cocos2d.h>
 
@@ -35,4 +35,4 @@ private:
     cocos2d::ui::Button* m_btEnter;
 };
 
-#endif // _CLIENT_SELECTSERVERSCENE_H_
+#endif // _CLIENT_SELECTSERVERSCENE_HPP_

@@ -1,6 +1,6 @@
 #include "Sockets.hpp"
 
-#include "AppClient.h"
+#include "AppClient.hpp"
 
 #include "Common/Packet/PacketLC.hpp"
 #include "Common/Packet/PacketGC.hpp"

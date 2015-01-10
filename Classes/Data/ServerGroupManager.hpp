@@ -1,5 +1,5 @@
-#ifndef _CLIENT_SERVERGROUPMANAGER_H_
-#define _CLIENT_SERVERGROUPMANAGER_H_
+#ifndef _CLIENT_SERVERGROUPMANAGER_HPP_
+#define _CLIENT_SERVERGROUPMANAGER_HPP_
 
 #include <Metazion/Share/Collection/DynamicArray.hpp>
 
@@ -30,4 +30,4 @@ private:
     ServerGroupArray_t m_serverGroupArray;
 };
 
-#endif // _CLIENT_SERVERGROUPMANAGER_H_
+#endif // _CLIENT_SERVERGROUPMANAGER_HPP_

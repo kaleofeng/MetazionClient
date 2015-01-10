@@ -4,9 +4,9 @@
 
 #include "Common/Packet/PacketLC.hpp"
 
-#include "AppClient.h"
+#include "AppClient.hpp"
 #include "Data/ServerGroupManager.hpp"
-#include "UI/UIMsgDispatcher.h"
+#include "UI/UIMsgDispatcher.hpp"
 
 void PacketHandlerLC::Handle(int command, const void* data, int length) {
     ::printf("Command[%d] data[%p] length[%d]\n", command, data, length);
@@ -21,8 +21,8 @@ void PacketHandlerLC::Handle(int command, const void* data, int length) {
     case COMMAND_LC_CONNECTFAILED:
         HandleConnectFailed(data, length);
         break;
-    case COMMAND_LC_PLAYERLOGIN:
-        HandlePlayerLogin(data, length);
+    case COMMAND_LC_USERLOGIN:
+        HandleUserLogin(data, length);
         break;
     case COMMAND_LC_SERVERLIST:
         HandleServerList(data, length);
@@ -46,7 +46,7 @@ void PacketHandlerLC::HandleConnectFailed(const void* data, int length) {
     
 }
 
-void PacketHandlerLC::HandlePlayerLogin(const void* data, int length) {
+void PacketHandlerLC::HandleUserLogin(const void* data, int length) {
     UIMsgDispatcher::Instance().Notify(UIMSG_LOGIN_RSP
         , reinterpret_cast<uint64_t>(data), length);
 }

@@ -19,7 +19,7 @@ private:
 
     void HandleConnectFailed(const void* data, int length);
 
-    void HandlePlayerLogin(const void* data, int length);
+    void HandleUserLogin(const void* data, int length);
 
     void HandleServerList(const void* data, int length);
 

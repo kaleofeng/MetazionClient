@@ -1,4 +1,4 @@
-#include "SelectServerScene.h"
+#include "SelectServerScene.hpp"
 
 #include <editor-support/cocostudio/ActionTimeline/CSLoader.h>
 #include <editor-support/cocostudio/ActionTimeline/CCActionTimeline.h>
@@ -7,11 +7,12 @@
 #include <Common/Packet/PacketCL.hpp>
 #include <Common/Packet/PacketLC.hpp>
 
-#include "AppClient.h"
 #include "Data/ServerGroupManager.hpp"
-#include "Data/StringManager.h"
-#include "UI/HallScene.h"
-#include "UI/UIMsgDispatcher.h"
+#include "Data/StringManager.hpp"
+#include "Data/User.hpp"
+#include "UI/HallScene.hpp"
+#include "UI/UIMsgDispatcher.hpp"
+#include "AppClient.hpp"
 
 USING_NS_CC;
 
@@ -94,6 +95,8 @@ void SelectServer::initUIMsgHandler() {
         if (rsp->m_authCode <= 0) {
             return;
         }
+
+        User::Instance().SetAuthCode(rsp->m_authCode);
 
         g_appClient->m_socketCL->SetReconnectInterval(-1);
         g_appClient->m_socketCL->Close();

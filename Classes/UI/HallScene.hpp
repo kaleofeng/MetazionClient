@@ -1,5 +1,5 @@
-#ifndef _CLIENT_HALLSCENE_H_
-#define _CLIENT_HALLSCENE_H_
+#ifndef _CLIENT_HALLSCENE_HPP_
+#define _CLIENT_HALLSCENE_HPP_
 
 #include <cocos2d.h>
 #include <ui/UIButton.h>
@@ -35,4 +35,4 @@ private:
     cocos2d::ui::Button* m_btTree;
 };
 
-#endif // _CLIENT_HALLSCENE_H_
+#endif // _CLIENT_HALLSCENE_HPP_

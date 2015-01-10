@@ -1,5 +1,5 @@
-#ifndef _CLIENT_LOGINSCENE_H_
-#define _CLIENT_LOGINSCENE_H_
+#ifndef _CLIENT_LOGINSCENE_HPP_
+#define _CLIENT_LOGINSCENE_HPP_
 
 #include <cocos2d.h>
 #include <ui/UIButton.h>
@@ -31,4 +31,4 @@ private:
     cocos2d::ui::Button* m_btLogin;
 };
 
-#endif // _CLIENT_LOGINSCENE_H_
+#endif // _CLIENT_LOGINSCENE_HPP_

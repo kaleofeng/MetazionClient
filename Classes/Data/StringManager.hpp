@@ -1,5 +1,5 @@
-#ifndef _CLIENT_STRINGMANAGER_H_
-#define _CLIENT_STRINGMANAGER_H_
+#ifndef _CLIENT_STRINGMANAGER_HPP_
+#define _CLIENT_STRINGMANAGER_HPP_
 
 #include <map>
 #include <string>
@@ -28,4 +28,4 @@ private:
     StringMap_t m_stringMap;
 };
 
-#endif // _CLIENT_STRINGMANAGER_H_
+#endif // _CLIENT_STRINGMANAGER_HPP_

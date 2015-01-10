@@ -1,12 +1,12 @@
-#ifndef _CLIENT_MSGDISPATCHER_H_
-#define _CLIENT_MSGDISPATCHER_H_
+#ifndef _CLIENT_MSGDISPATCHER_HPP_
+#define _CLIENT_MSGDISPATCHER_HPP_
 
 #include <cstdint>
 #include <list>
 #include <map>
 #include <functional>
 
-#include "UI/UIMsg.h"
+#include "UI/UIMsg.hpp"
 
 class UIMsgDispatcher {
     using MsgHandler_t = std::function<void(int, uint64_t, int64_t)>;
@@ -31,4 +31,4 @@ private:
 
 };
 
-#endif // _CLIENT_MSGDISPATCHER_H_
+#endif // _CLIENT_MSGDISPATCHER_HPP_

@@ -3,7 +3,7 @@
 
 #include <cocos2d.h>
 
-#include "AppClient.h"
+#include "AppClient.hpp"
 
 /**
 @brief    The cocos2d Application.

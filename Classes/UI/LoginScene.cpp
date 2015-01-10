@@ -1,4 +1,4 @@
-#include "LoginScene.h"
+#include "LoginScene.hpp"
 
 #include <editor-support/cocostudio/ActionTimeline/CSLoader.h>
 #include <editor-support/cocostudio/ActionTimeline/CCActionTimeline.h>
@@ -9,9 +9,10 @@
 #include <Common/Packet/PacketCL.hpp>
 #include <Common/Packet/PacketLC.hpp>
 
-#include "AppClient.h"
-#include "UI/SelectServerScene.h"
-#include "UI/UIMsgDispatcher.h"
+#include "Data/User.hpp"
+#include "UI/SelectServerScene.hpp"
+#include "UI/UIMsgDispatcher.hpp"
+#include "AppClient.hpp"
 
 USING_NS_CC;
 
@@ -65,12 +66,15 @@ void Login::initUI() {
 void Login::initUIMsgHandler() {
     UIMsgDispatcher::Instance().Register(UIMSG_LOGIN_RSP
         , [this](int msg, uint64_t param1, int64_t param2) {
-        const auto rsp = reinterpret_cast<const PlayerLoginLC*>(param1);
+        const auto rsp = reinterpret_cast<const UserLoginLC*>(param1);
 
         m_btLogin->setBright(true);
         m_btLogin->setTouchEnabled(true);
 
         if (rsp->m_success) {
+            const auto userId = rsp->m_userId;
+            User::Instance().SetUserId(userId);
+
             auto selectServerScene = SelectServer::createScene();
             Director::getInstance()->replaceScene(selectServerScene);
         }
@@ -89,7 +93,7 @@ void Login::loginButtonCallback(Ref* sender, ui::Widget::TouchEventType type) {
     const auto& username = m_tfUsername->getString();
     const auto& password = m_tfPassword->getString();
 
-    PlayerLoginCL req;
+    UserLoginCL req;
     NS_MZ_SHARE::mzstrcpy(req.m_username, sizeof(req.m_username), username.c_str());
     NS_MZ_SHARE::mzstrcpy(req.m_password, sizeof(req.m_password), password.c_str());
     g_appClient->m_socketCL->SendData(req.COMMAND, &req, sizeof(req));

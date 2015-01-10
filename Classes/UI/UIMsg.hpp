@@ -1,5 +1,5 @@
-#ifndef _CLIENT_MSG_H_
-#define _CLIENT_MSG_H_
+#ifndef _CLIENT_MSG_HPP_
+#define _CLIENT_MSG_HPP_
 
 enum UIMsgType {
     UIMSG_NONE = 0,
@@ -8,4 +8,4 @@ enum UIMsgType {
     UIMSG_SELECTSERVER_RSP,
 };
 
-#endif // _CLIENT_MSG_H_
+#endif // _CLIENT_MSG_HPP_

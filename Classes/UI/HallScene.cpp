@@ -1,4 +1,4 @@
-#include "HallScene.h"
+#include "HallScene.hpp"
 
 #include <editor-support/cocostudio/ActionTimeline/CSLoader.h>
 #include <editor-support/cocostudio/ActionTimeline/CCActionTimeline.h>
@@ -9,9 +9,9 @@
 #include <Common/Packet/PacketCL.hpp>
 #include <Common/Packet/PacketLC.hpp>
 
-#include "AppClient.h"
-#include "UI/SelectServerScene.h"
-#include "UI/UIMsgDispatcher.h"
+#include "AppClient.hpp"
+#include "UI/SelectServerScene.hpp"
+#include "UI/UIMsgDispatcher.hpp"
 
 USING_NS_CC;
 
@@ -64,18 +64,7 @@ void Hall::initUI() {
 }
 
 void Hall::initUIMsgHandler() {
-    UIMsgDispatcher::Instance().Register(UIMSG_LOGIN_RSP
-        , [this](int msg, uint64_t param1, int64_t param2) {
-        const auto rsp = reinterpret_cast<const PlayerLoginLC*>(param1);
 
-        m_btHouse->setBright(true);
-        m_btHouse->setTouchEnabled(true);
-
-        if (rsp->m_success) {
-            auto selectServerScene = SelectServer::createScene();
-            Director::getInstance()->replaceScene(selectServerScene);
-        }
-    });
 }
 
 void Hall::houseButtonCallback(Ref* sender, ui::Widget::TouchEventType type) {
