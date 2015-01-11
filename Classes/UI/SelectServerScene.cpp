@@ -139,6 +139,7 @@ void SelectServer::enterButtonCallback(Ref* sender, ui::Widget::TouchEventType t
     MZ_ASSERT_TRUE(!NS_MZ::IsNull(serverGroup));
 
     SelectServerCL req;
+    req.m_userId = User::Instance().GetUserId();
     req.m_serverId = serverGroup->GetId();
     g_appClient->m_socketCL->SendData(req.COMMAND, &req, sizeof(req));
 
