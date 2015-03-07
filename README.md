@@ -1,4 +1,0 @@
-MetazionClient
-==============
-
-MMO Game Client

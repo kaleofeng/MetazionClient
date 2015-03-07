@@ -2,4 +2,6 @@
 !/Classes
 !/Resources
 !/.gitignore
+!LICENSE
+!README
 *.log
